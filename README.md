@@ -1,4 +1,4 @@
-# hajusly backend
+# hajusly
 
 :: ISA III (4-liikmeline projekt) - sarnane moodle'le
 \
