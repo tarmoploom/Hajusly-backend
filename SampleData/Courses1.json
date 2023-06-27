@@ -1,0 +1,5 @@
+[
+    {"Name":"C# programmeerimine","Code":"TTY1","CourseStart":"2020-05-08T20:05:09Z","CourseEnd":"2023-03-14T06:35:45Z","TeacherId":1,"isActive":true,"isArchived":false},
+    {"Name":"Automaattestimine","Code":"ICS0024","CourseStart":"2022-05-31T08:51:25Z","CourseEnd":"2022-05-16T14:02:32Z","TeacherId":1,"isActive":true,"isArchived":false},
+    {"Name":"Hajussüsteemide ehitamine","Code":"ITB2203","CourseStart":"2021-04-24T16:49:59Z","CourseEnd":"2023-08-12T09:20:21Z","TeacherId":1,"isActive":true,"isArchived":false}
+]

@@ -1,0 +1,57 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+
+    <MacroFile>def.h</MacroFile> <!-- the filename with your #defines -->
+    <LangVersion>default</LangVersion>
+    <DefineConstants></DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EntityFramework" Version="6.4.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.10" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.7" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="SampleData" />
+  </ItemGroup>
+
+  <!-- override targets (make sure this is AFTER the import elements) -->
+  <!-- BeforeBuild is pre-dfined target which can be overriden -->
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <!-- Open the #define file and read every line in items named
+         MacrosFromFile -->
+    <ReadLinesFromFile File="$(MacroFile)">
+      <Output TaskParameter="Lines" ItemName="MacrosFromFile" />
+    </ReadLinesFromFile>
+
+    <!-- Create a new property called FileDefineConstants combining
+         every Item from MacrosFromFile
+         using the built-in replace statement to get
+         rid of the #define instruction s-->
+    <CreateProperty Value="@(MacrosFromFile-&gt;Replace(' #define ', ''))">
+      <Output TaskParameter="Value" ItemName="ItemDefineConstants" />
+    </CreateProperty>
+    <CreateProperty Value="@(ItemDefineConstants-&gt;Replace('#define ', ''))">
+      <Output TaskParameter="Value" PropertyName="FileDefineConstants" />
+    </CreateProperty>
+
+    <!-- re-create the orignal DefineConstants combining the current value
+    and the value from FileDefineConstants -->
+    <CreateProperty Value="$(DefineConstants);$(FileDefineConstants)">
+      <Output TaskParameter="Value" PropertyName="DefineConstants" />
+    </CreateProperty>
+
+    <Message Text="Const &gt;&gt; $(DefineConstants)" />
+  </Target>
+
+</Project>
